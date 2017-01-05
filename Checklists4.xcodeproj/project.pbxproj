@@ -13,19 +13,19 @@
 		D816A85B1E1DAC9D00A68D1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D816A85A1E1DAC9D00A68D1F /* Assets.xcassets */; };
 		D816A85E1E1DAC9D00A68D1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D816A85C1E1DAC9D00A68D1F /* LaunchScreen.storyboard */; };
 		D8DDAF021E1E02DB0099290D /* ChecklistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DDAF011E1E02DB0099290D /* ChecklistItem.swift */; };
-		D8DDAF041E1EC92C0099290D /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DDAF031E1EC92C0099290D /* AddItemViewController.swift */; };
+		D8DDAF041E1EC92C0099290D /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DDAF031E1EC92C0099290D /* ItemDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D816A8501E1DAC9D00A68D1F /* Checklists4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Checklists4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D816A8531E1DAC9D00A68D1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D816A8551E1DAC9D00A68D1F /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewController.swift; sourceTree = "<group>"; };
+		D816A8551E1DAC9D00A68D1F /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ChecklistViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D816A8581E1DAC9D00A68D1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D816A85A1E1DAC9D00A68D1F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D816A85D1E1DAC9D00A68D1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D816A85F1E1DAC9D00A68D1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8DDAF011E1E02DB0099290D /* ChecklistItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChecklistItem.swift; sourceTree = "<group>"; };
-		D8DDAF031E1EC92C0099290D /* AddItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
+		D8DDAF031E1EC92C0099290D /* ItemDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ItemDetailViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +60,7 @@
 			children = (
 				D816A8531E1DAC9D00A68D1F /* AppDelegate.swift */,
 				D816A8551E1DAC9D00A68D1F /* ChecklistViewController.swift */,
-				D8DDAF031E1EC92C0099290D /* AddItemViewController.swift */,
+				D8DDAF031E1EC92C0099290D /* ItemDetailViewController.swift */,
 				D8DDAF011E1E02DB0099290D /* ChecklistItem.swift */,
 				D816A8571E1DAC9D00A68D1F /* Main.storyboard */,
 				D816A85A1E1DAC9D00A68D1F /* Assets.xcassets */,
@@ -143,7 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8DDAF041E1EC92C0099290D /* AddItemViewController.swift in Sources */,
+				D8DDAF041E1EC92C0099290D /* ItemDetailViewController.swift in Sources */,
 				D816A8561E1DAC9D00A68D1F /* ChecklistViewController.swift in Sources */,
 				D8DDAF021E1E02DB0099290D /* ChecklistItem.swift in Sources */,
 				D816A8541E1DAC9D00A68D1F /* AppDelegate.swift in Sources */,
