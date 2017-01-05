@@ -60,6 +60,20 @@ class ChecklistViewController: UITableViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    // MARK: - IBAction Methods
+    @IBAction func addItem() {
+        let newRowIndex = items.count
+        
+        let newItem = ChecklistItem()
+        newItem.text = "new row created"
+        newItem.checked = false
+        items.append(newItem)
+        
+        let indexPath = IndexPath(row: newRowIndex, section: 0)
+        let indexPaths = [indexPath]
+        tableView.insertRows(at: indexPaths, with: .automatic)
+    }
+    
     // MARK: - TableView DataSource Protocol Methods
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
@@ -88,9 +102,16 @@ class ChecklistViewController: UITableViewController {
             
             configureCheckmark(for: cell, with: item)
         }
-        
         tableView.deselectRow(at: indexPath, animated: true)
-
+    }
+    
+    override func tableView(_ tableView: UITableView,
+                            commit editingStyle: UITableViewCellEditingStyle,
+                            forRowAt indexPath: IndexPath) {
+        items.remove(at: indexPath.row)
+        
+        let indexPaths = [indexPath]
+        tableView.deleteRows(at: indexPaths, with: .automatic)
     }
     
     // MARK: - Helper Methods
