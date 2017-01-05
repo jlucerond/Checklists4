@@ -1,0 +1,63 @@
+//
+//  AddItemViewController.swift
+//  Checklists4
+//
+//  Created by Joe Lucero on 1/5/17.
+//  Copyright © 2017 Joe Lucero. All rights reserved.
+//
+
+import UIKit
+
+protocol AddItemViewControllerDelegate: class {
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController)
+    func addItemViewController(_ controller: AddItemViewController,
+                           didFinishAdding item: ChecklistItem)
+}
+
+class AddItemViewController: UITableViewController, UITextFieldDelegate {
+
+    // MARK: - IBOutlet Variables
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
+    
+    // MARK: - Variables
+    weak var delegate: AddItemViewControllerDelegate?
+    
+    // MARK: - View Controller Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        textField.becomeFirstResponder()
+    }
+    
+    // MARK: - IBAction Methods
+    @IBAction func cancel() {
+        delegate?.addItemViewControllerDidCancel(self)
+    }
+    
+    @IBAction func done() {
+        let newItem = ChecklistItem()
+        newItem.text = textField.text! as String
+        newItem.checked = false
+        
+        delegate?.addItemViewController(self, didFinishAdding: newItem)
+    }
+    
+    // MARK: - TableView Delegate Protocol Methods
+    override func tableView(_ tableView: UITableView,
+                            willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return nil
+    }
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        let oldText = textField.text! as NSString
+        let newText = oldText.replacingCharacters(in: range, with: string) as NSString
+        
+        doneBarButtonItem.isEnabled = (newText.length > 0)
+        
+        return true
+    }
+
+   
+}

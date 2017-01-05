@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChecklistViewController: UITableViewController {
+class ChecklistViewController: UITableViewController, AddItemViewControllerDelegate {
 
     // MARK: - Variables
     var items: [ChecklistItem]
@@ -60,20 +60,6 @@ class ChecklistViewController: UITableViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    // MARK: - IBAction Methods
-    @IBAction func addItem() {
-        let newRowIndex = items.count
-        
-        let newItem = ChecklistItem()
-        newItem.text = "new row created"
-        newItem.checked = false
-        items.append(newItem)
-        
-        let indexPath = IndexPath(row: newRowIndex, section: 0)
-        let indexPaths = [indexPath]
-        tableView.insertRows(at: indexPaths, with: .automatic)
-    }
-    
     // MARK: - TableView DataSource Protocol Methods
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
@@ -112,6 +98,33 @@ class ChecklistViewController: UITableViewController {
         
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
+    }
+    
+    // MARK: - AddItemViewController Delegate Protocol Methods
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func addItemViewController(_ controller: AddItemViewController,
+                               didFinishAdding item: ChecklistItem) {
+        let newRowIndex = items.count
+        
+        items.append(item)
+        
+        let indexPath = IndexPath(row: newRowIndex, section: 0)
+        let indexPaths = [indexPath]
+        tableView.insertRows(at: indexPaths, with: .automatic)
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Navigation Methods
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddItem" {
+            let navigationController = segue.destination as! UINavigationController
+            let controller = navigationController.topViewController as! AddItemViewController
+            controller.delegate = self
+        }
     }
     
     // MARK: - Helper Methods
