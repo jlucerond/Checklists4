@@ -8,11 +8,20 @@
 
 import UIKit
 
+protocol AddItemViewControllerDelegate: class {
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController)
+    func addItemViewController(_ controller: AddItemViewController,
+                           didFinishAdding item: ChecklistItem)
+}
+
 class AddItemViewController: UITableViewController, UITextFieldDelegate {
 
     // MARK: - IBOutlet Variables
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
+    
+    // MARK: - Variables
+    weak var delegate: AddItemViewControllerDelegate?
     
     // MARK: - View Controller Methods
     override func viewDidLoad() {
@@ -22,7 +31,7 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: - IBAction Methods
     @IBAction func cancel() {
-        dismiss(animated: true, completion: nil)
+        delegate?.addItemViewControllerDidCancel(self)
     }
     
     @IBAction func done() {
@@ -30,9 +39,7 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
         newItem.text = textField.text! as String
         newItem.checked = false
         
-        print(newItem)
-        
-        dismiss(animated: true, completion: nil)
+        delegate?.addItemViewController(self, didFinishAdding: newItem)
     }
     
     // MARK: - TableView Delegate Protocol Methods
