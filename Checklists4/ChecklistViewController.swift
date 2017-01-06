@@ -16,48 +16,17 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     // MARK: - Initializer Method
     required init?(coder aDecoder: NSCoder) {
         items = [ChecklistItem]()
-        let row0item = ChecklistItem()
-        row0item.text = "first"
-        row0item.checked = true
-        items.append(row0item)
-        
-        let row1item = ChecklistItem()
-        row1item.text = "second"
-        row1item.checked = true
-        items.append(row1item)
-        
-        let row2item = ChecklistItem()
-        row2item.text = "third"
-        row2item.checked = false
-        items.append(row2item)
-        
-        let row3item = ChecklistItem()
-        row3item.text = "fourth"
-        row3item.checked = true
-        items.append(row3item)
-        
-        let row4item = ChecklistItem()
-        row4item.text = "fifth"
-        row4item.checked = false
-        items.append(row4item)
-        
-        let row5item = ChecklistItem()
-        row5item.text = "sixth"
-        row5item.checked = true
-        items.append(row5item)
-        
-        let row6item = ChecklistItem()
-        row6item.text = "seventh"
-        row6item.checked = false
-        items.append(row6item)
-        
         super.init(coder: aDecoder)
+        loadChecklistItems()
     }
     
     // MARK: - ViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        print("Documents folder is \(documentsDirectory())")
+        print("Data file path is \(dataFilePath())")
     }
     
     // MARK: - TableView DataSource Protocol Methods
@@ -89,6 +58,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             configureCheckmark(for: cell, with: item)
         }
         tableView.deselectRow(at: indexPath, animated: true)
+        saveChecklistItems()
     }
     
     override func tableView(_ tableView: UITableView,
@@ -98,6 +68,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
+        saveChecklistItems()
     }
     
     // MARK: - ItemDetailViewController Delegate Protocol Methods
@@ -116,6 +87,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         tableView.insertRows(at: indexPaths, with: .automatic)
         
         dismiss(animated: true, completion: nil)
+        saveChecklistItems()
     }
     
     func itemDetailViewController(_ controller: ItemDetailViewController,
@@ -127,6 +99,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             }
         }
         dismiss(animated: true, completion: nil)
+        saveChecklistItems()
     }
     
     // MARK: - Navigation Methods
@@ -162,6 +135,36 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
                        with item: ChecklistItem) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
+    }
+    
+    // MARK: - Data Persistence Methods
+    
+    func documentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory,
+                                             in: .userDomainMask)
+        return paths[0]
+    }
+    
+    func dataFilePath() -> URL {
+        return documentsDirectory().appendingPathComponent("Checklists.plist")
+    }
+    
+    func saveChecklistItems() {
+        let data = NSMutableData()
+        let archiver = NSKeyedArchiver(forWritingWith: data)
+        archiver.encode(items, forKey: "ChecklistItems")
+        archiver.finishEncoding()
+        data.write(to: dataFilePath(), atomically: true)
+    }
+    
+    func loadChecklistItems() {
+        let path = dataFilePath()
+        
+        if let data = try? Data(contentsOf: path) {
+            let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
+            items = unarchiver.decodeObject(forKey: "ChecklistItems") as! [ChecklistItem]
+            unarchiver.finishDecoding()
+        }
     }
     
 }
