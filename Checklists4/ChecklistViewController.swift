@@ -12,6 +12,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
 
     // MARK: - Variables
     var items: [ChecklistItem]
+    var checklist: Checklist!
     
     // MARK: - Initializer Method
     required init?(coder aDecoder: NSCoder) {
@@ -23,7 +24,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     // MARK: - ViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        title = checklist.name
     }
     
     // MARK: - TableView DataSource Protocol Methods
