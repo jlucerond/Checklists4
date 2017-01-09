@@ -17,7 +17,17 @@ class ChecklistItem: NSObject, NSCoding {
     }
     
     // MARK: - Initializer Methods
-    override init() {
+    override convenience init() {
+        self.init(text: "No Name")
+    }
+    
+    convenience init(text: String) {
+        self.init(text: text, checked: false)
+    }
+    
+    init(text: String, checked: Bool) {
+        self.text = text
+        self.checked = checked
         super.init()
     }
     
