@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UserNotifications
 
 class ChecklistItem: NSObject, NSCoding {
     var text = ""
@@ -14,10 +15,6 @@ class ChecklistItem: NSObject, NSCoding {
     var dueDate = Date()
     var shouldRemind = false
     var itemID: Int
-    
-    func toggleCheckmark() {
-        checked = !checked
-    }
     
     // MARK: - Initializer Methods
     override convenience init() {
@@ -42,11 +39,49 @@ class ChecklistItem: NSObject, NSCoding {
         super.init()
     }
     
+    // MARK: - Deinitialize Methods
+    deinit {
+        removeNotification()
+    }
+    
     // MARK: - NSCoding Protocol Methods
     func encode(with aCoder: NSCoder) {
         aCoder.encode(text, forKey: "Text")
         aCoder.encode(checked, forKey: "Checked")
         aCoder.encode(itemID, forKey: "ItemID")
+    }
+    
+    // MARK: - Helper Methods
+    func toggleCheckmark() {
+        checked = !checked
+    }
+    
+    func scheduleNotification() {
+        removeNotification()
+        if shouldRemind && dueDate > Date() {
+            let content = UNMutableNotificationContent()
+            content.title = "Reminder:"
+            content.body = text
+            content.sound = UNNotificationSound.default()
+            
+            let calendar = Calendar(identifier: .gregorian)
+            let components = calendar.dateComponents([.month, .day, .hour, .minute], from: dueDate)
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: "\(itemID)", content: content, trigger: trigger)
+            
+            let center = UNUserNotificationCenter.current()
+            center.add(request)
+            
+            print("Scheduled notification for itemID \(itemID)")
+        }
+    }
+    
+    func removeNotification() {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: ["\(itemID)"])
+        print("removed a notification")
     }
 
 }

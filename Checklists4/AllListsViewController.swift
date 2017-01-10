@@ -120,6 +120,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         if segue.identifier == "ShowChecklist" {
             let controller = segue.destination as! ChecklistViewController
             controller.checklist = sender as! Checklist
+            controller.dataModel = self.dataModel
         } else if segue.identifier == "AddChecklist" {
             let navigationController = segue.destination as! UINavigationController
             let controller = navigationController.topViewController as! ListDetailViewController

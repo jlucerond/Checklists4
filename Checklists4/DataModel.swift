@@ -81,6 +81,11 @@ class DataModel {
     func sortChecklists() {
         lists.sort(by: {checklist1, checklist2 in
             return checklist1.name.localizedStandardCompare(checklist2.name) == .orderedAscending})
+        
+        for list in lists {
+            list.items.sort(by: {item1, item2 in
+                return item1.dueDate.compare(item2.dueDate) == .orderedAscending})
+        }
     }
     
     class func nextChecklistItemID() -> Int {
