@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     let dataModel = DataModel()
@@ -20,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = window!.rootViewController as! UINavigationController
         let controller = navigationController.viewControllers[0] as! AllListsViewController
         controller.dataModel = dataModel
+        
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
         
         return true
     }
@@ -48,9 +52,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         saveData()
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        presentUIAlertOnScreen(notification: notification)
+        
+    }
+
+    
     // MARK: - Helper Methods
     func saveData() {
         dataModel.saveChecklists()
+    }
+    
+    func presentUIAlertOnScreen(notification: UNNotification) {
+        print("Received local notification \(notification)")
+        
+        let myRequest = notification.request
+        let myContent = myRequest.content
+        let myText = myContent.body
+        
+        let alert = UIAlertController(title: "Reminder:", message: "\(myText)", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(action)
+        
+        let navigationController = window!.rootViewController as! UINavigationController
+        
+        if let screen = navigationController.visibleViewController {
+            screen.present(alert, animated: true, completion: nil)
+            return
+        } else {
+            print("not able to send a UIAlert")
+        }
+        
     }
 
 }

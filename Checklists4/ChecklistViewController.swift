@@ -12,6 +12,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
 
     // MARK: - Variables
     var checklist: Checklist!
+    var dataModel: DataModel!
     
     // MARK: - ViewController Methods
     override func viewDidLoad() {
@@ -66,25 +67,18 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     
     func itemDetailViewController(_ controller: ItemDetailViewController,
                                didFinishAdding item: ChecklistItem) {
-        let newRowIndex = checklist.items.count
-        
         checklist.items.append(item)
-        
-        let indexPath = IndexPath(row: newRowIndex, section: 0)
-        let indexPaths = [indexPath]
-        tableView.insertRows(at: indexPaths, with: .automatic)
+        dataModel.sortChecklists()
+        tableView.reloadData()
         
         dismiss(animated: true, completion: nil)
     }
     
     func itemDetailViewController(_ controller: ItemDetailViewController,
                                didFinishEditing item: ChecklistItem) {
-        if let index = checklist.items.index(of: item) {
-            let indexPath = IndexPath(row: index, section: 0)
-            if let cell = tableView.cellForRow(at: indexPath) {
-                configureText(for: cell, with: item)
-            }
-        }
+        dataModel.sortChecklists()
+        tableView.reloadData()
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -121,6 +115,13 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
                        with item: ChecklistItem) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        
+        let dateLabel = cell.viewWithTag(1002) as! UILabel
+        dateLabel.text = "\(formatter.string(from: item.dueDate))"
     }
 }
 
